@@ -68,9 +68,9 @@ Ulamek* pomnoz (Ulamek *u1, Ulamek *u2) {
 }
 
 Ulamek* podziel (Ulamek *u1, Ulamek *u2) {
-	int iloczyn_licznikow = u1->licznik * u2->mianownik;
-	int iloczyn_mianownikow = u1->mianownik * u2->licznik;
-	return nowy_ulamek(iloczyn_licznikow, iloczyn_mianownikow);
+	int iloraz_licznika = u1->licznik * u2->mianownik;
+	int iloraz_mianownika = u1->mianownik * u2->licznik;
+	return nowy_ulamek(iloraz_licznika, iloraz_mianownika);
 }
 
 /*
@@ -86,6 +86,7 @@ void dodaj (Ulamek *u1, Ulamek *u2) {
 	Ulamek* suma_ulamkow = nowy_ulamek(suma_licznikow, wsp_mianownik);
 	u2 -> licznik = suma_ulamkow -> licznik;
 	u2 -> mianownik = suma_ulamkow -> mianownik;
+	free(suma_ulamkow);
 }
 
 void odejmij (Ulamek *u1, Ulamek *u2) {
@@ -100,6 +101,7 @@ void odejmij (Ulamek *u1, Ulamek *u2) {
 	Ulamek* roznica_ulamkow = nowy_ulamek(roznica_licznikow, wsp_mianownik);
 	u2 -> licznik = suma_ulamkow -> licznik;
 	u2 -> mianownik = suma_ulamkow -> mianownik;
+	free(roznica_ulamkow);
 }
 
 void pomnoz (Ulamek *u1, Ulamek *u2) {
@@ -108,21 +110,25 @@ void pomnoz (Ulamek *u1, Ulamek *u2) {
 	Ulamek iloczyn_ulamkow = nowy_ulamek(iloczyn_licznikow, iloczyn_mianownikow);
 	u2 -> licznik = iloczyn_ulamkow -> licznik;
 	u2 -> mianownik = iloczyn_ulamkow -> mianownik;
+	free(iloczyn_ulamkow);
 }
 
 void podziel (Ulamek *u1, Ulamek *u2) {
-	int iloczyn_licznikow = u1->licznik * u2->mianownik;
-	int iloczyn_mianownikow = u1->mianownik * u2->licznik;
-	return nowy_ulamek(iloczyn_licznikow, iloczyn_mianownikow);
+	int iloraz_licznikow = u1->licznik * u2->mianownik;
+	int iloraz_mianownikow = u1->mianownik * u2->licznik;
+	Ulamek iloraz_ulamkow = nowy_ulamek(iloraz_licznikow, iloraz_mianownikow);
+	u2 -> licznik = iloraz_ulamkow -> licznik;
+	u2 -> mianownik = iloraz_ulamkow -> mianownik;
+	free(iloraz_ulamkow);
 }
 */
 int main () {
 	Ulamek *u1;
 	Ulamek *u2;
 	Ulamek *u;
-	u1 = nowy_ulamek(56, -4);
+	u1 = nowy_ulamek(2, -4);
 	u2 = nowy_ulamek(14, 2);
-	u = odejmij(u1, u2);
+	u = pomnoz(u1, u2);
 	printf("%d %d\n", u->licznik, u->mianownik);
 	return 0;
 }
