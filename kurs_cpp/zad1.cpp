@@ -22,12 +22,12 @@ int64_t stringToInt(std::string str) {
 	int64_t i = (str[0] == '-') ? 1 : 0;
 	
 	if(str[i] == '0' && str.length() != 1) {
-		std::string exception = "Liczba zaczyna sie od zera.";
+		std::invalid_argument exception("Liczba zaczyna sie od zera.");
 		throw exception;
 	}
 	for(; i < str.length(); i++) {
 		if(str[i] < '0' || str[i] > '9') {
-			std::string exception = "Argument nie jest liczba.";
+			std::invalid_argument exception("Argument nie jest liczba.");
 			throw exception;
 		}
 		result *= 10;
