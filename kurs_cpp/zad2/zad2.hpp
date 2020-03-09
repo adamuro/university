@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 #ifndef zad2_hpp
 #define zad2_hpp
@@ -8,7 +9,8 @@ public:
 	wektor () = default;
 	wektor (double x, double y);
 	wektor (const wektor &w);
-	~wektor ();
+	wektor & operator=(const wektor &w) = delete;
+	~wektor () {}
 
 	const double dx;
 	const double dy;
@@ -22,7 +24,8 @@ public:
 	punkt (double x_, double y_);
 	punkt (const punkt &p, const wektor &w);
 	punkt (const punkt &p);
-	~punkt ();
+	punkt & operator=(const wektor &w) = delete;
+	~punkt () {}
 
 	const double x;
 	const double y;
@@ -35,7 +38,8 @@ public:
 	prosta (double a_, double b_, double c_); // a i b nie moga byc 0 jednoczesnie
 	prosta (const prosta &p, const wektor &w);
 	prosta () = default;
-	~prosta ();
+	prosta & operator=(const wektor &w) = delete;
+	~prosta () {}
 
 	bool czy_wektor_prostopadly (const wektor &w);
 	bool czy_wektor_rownolegly (const wektor &w);
@@ -50,7 +54,7 @@ private:
 	double c;
 };
 
-bool czy_proste_rownolegle (const prosta &p1, const prosta &p2);
-punkt przeciecie_prostych (const prosta &p1, const prosta &p2);
+bool czy_proste_rownolegle (prosta &p1, prosta &p2);
+punkt przeciecie_prostych (prosta &p1, prosta &p2);
 
 #endif

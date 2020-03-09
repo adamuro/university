@@ -26,41 +26,56 @@ prosta::prosta (const punkt &p1, const punkt &p2) {
 	a = p2.y - p1.y;
 	b = p1.x - p2.x;
 	c = p2.x * p1.y - p1.x * p2.y;
+
+	double czynnik_norm = 1 / (sqrt(a * a + b * b));
+
+	a *= czynnik_norm;
+	b *= czynnik_norm;
+	c *= czynnik_norm;
 }
 prosta::prosta (const wektor &w) {
 	if(w.dx == 0 && w.dy == 0) {
 		std::invalid_argument exception("Podano wektor zerowy.");
 		throw exception;
 	}
-	else if(w.dx == 0) {
-		a = 0;
-		b = 1;
-		c = -w.dy;
-	}
-	else if(w.dy == 0) {
-		a = 1;
-		b = 0;
-		c = -w.dx;
-	}
-	else {
-		a = w.dx;
-		b = w.dy;
-		c = (a * a + b * b) / b;
-	}
+	a = w.dx;
+	b = w.dy;
+	c = -(a * a + b * b);
+
+	double czynnik_norm = 1 / (sqrt(a * a + b * b));
+
+	a *= czynnik_norm;
+	b *= czynnik_norm;
+	c *= czynnik_norm;
+
 }
 prosta::prosta (double a_, double b_, double c_) {
-	if(a == 0 && b == 0) {
+	if(a_ == 0 && b_ == 0) {
 		std::invalid_argument exception("Wspolczynniki a i b sa rowne 0.");
 		throw exception;
 	}
 	a = a_;
 	b = b_;
 	c = c_;
+
+	double czynnik_norm = 1 / (sqrt(a * a + b * b));
+	
+	a *= czynnik_norm;
+	b *= czynnik_norm;
+	c *= czynnik_norm;
 }
 prosta::prosta (const prosta &p, const wektor &w) {
+	double wektor_norm = 1 / sqrt(w.dx * w.dx + w.dy * w.dy);
+
 	a = p.a;
 	b = p.b;
-	c = p.c - w.dx * p.a + w.dy;
+	c = p.c - w.dx * p.a * wektor_norm + w.dy * wektor_norm;
+
+	double czynnik_norm = 1 / (sqrt(a * a + b * b));
+
+	a *= czynnik_norm;
+	b *= czynnik_norm;
+	c *= czynnik_norm;
 }
 double prosta::get_a () {
 	return a;

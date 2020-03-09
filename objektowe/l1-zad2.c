@@ -27,6 +27,10 @@ Ulamek* nowy_ulamek (int licznik, int mianownik) {
 		licznik *= -1;
 		mianownik *= -1;
 	}
+	if(minaownik == 0) {
+		printf("Mianownik rowny 0.\n");
+		return NULL;
+	}
 	int nwd = NWD(abs(licznik), mianownik);
 	licznik /= nwd;
 	mianownik /= nwd;
@@ -73,7 +77,8 @@ Ulamek* podziel (Ulamek *u1, Ulamek *u2) {
 	return nowy_ulamek(iloraz_licznika, iloraz_mianownika);
 }
 
-/*
+/* ------------------------ INNE WERSJE ------------------------ */
+
 void dodaj (Ulamek *u1, Ulamek *u2) {
 	int wsp_mianownik = u1->mianownik;
 	if(u1->mianownik != u2->mianownik) {
@@ -121,7 +126,8 @@ void podziel (Ulamek *u1, Ulamek *u2) {
 	u2 -> mianownik = iloraz_ulamkow -> mianownik;
 	free(iloraz_ulamkow);
 }
-*/
+
+
 int main () {
 	Ulamek *u1;
 	Ulamek *u2;
@@ -129,6 +135,9 @@ int main () {
 	u1 = nowy_ulamek(2, -4);
 	u2 = nowy_ulamek(14, 2);
 	u = pomnoz(u1, u2);
-	printf("%d %d\n", u->licznik, u->mianownik);
+	printf("2/-4: %d / %d\n", u1->licznik, u1->mianownik);
+	printf("14/2: %d / %d\n", u2->licznik, u2->mianownik);
+	printf("(2/-4) * (14/2)\n");
+	printf("%d / %d\n", u->licznik, u->mianownik);
 	return 0;
 }

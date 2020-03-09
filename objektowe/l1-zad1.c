@@ -15,7 +15,7 @@ typedef struct Figura {
 	int typfig;
 } Figura;
 
-Figura* nowy_kwadrat (int x, int y, int dlugosc) {
+Figura* nowy_kwadrat (float x, float y, float dlugosc) {
 	if(dlugosc <= 0) {
 		printf("Niepoprawna dlugosc boku.\n");
 		return NULL;
@@ -28,7 +28,7 @@ Figura* nowy_kwadrat (int x, int y, int dlugosc) {
 	return kwadrat;
 }
 
-Figura* nowy_trojkat (int x, int y, int dlugosc) {
+Figura* nowy_trojkat (float x, float y, float dlugosc) {
 	if(dlugosc <= 0) {
 		printf("Niepoprawna dlugosc boku.\n");
 		return NULL;
@@ -41,7 +41,7 @@ Figura* nowy_trojkat (int x, int y, int dlugosc) {
 	return trojkat;
 }
 
-Figura* nowe_kolo (int x, int y, int promien) {
+Figura* nowe_kolo (float x, float y, float promien) {
 	if(promien <= 0) {
 		printf("Niepoprawna dlugosc promienia.\n");
 		return NULL;
@@ -76,15 +76,26 @@ void przesun(Figura *f, float x, float y) {
 	f->y += y;
 }
 
-float sumapol(Figura *f, int size) {
+float sumapol(Figura **f, int size) {
 	float suma = 0;
 	
 	for(int i = 0; i < size; i++) {
-		suma += pole(&f[i]);
+		suma += pole(f[i]);
 	}
 }
 
+
 int main() {
+	Figura *kwadrat = nowy_kwadrat(2, 4, 1.5);
+	Figura *kolo = nowe_kolo(-2.5, 1, 4);
+	Figura *trojkat = nowy_trojkat(0, 1, 3);
+
+	printf("pole kwadratu: %f\n", pole(kwadrat));
+	printf("pole kola: %f\n", pole(kolo));
+	printf("pole trojkata: %f\n", pole(trojkat));
+
+	Figura *tab[3] = {kwadrat, kolo, trojkat};
+	printf("%f\n", sumapol(tab, 3));
 
 	return 0;
 }
