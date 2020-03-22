@@ -2,22 +2,6 @@ using System;
 
 class Program
 {
-	static bool isPrime(int number) {
-		if(number == 2) {
-			return true;
-		}
-		if(number % 2 == 0 || number < 2) {
-			return false;
-		}
-		int numSqrt = (int)Math.Sqrt(number);
-		for(int i = 3; i <= numSqrt; i += 2) {
-			if(number % i == 0) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	class IntStream {
 		int currentNumber;
 
@@ -36,7 +20,7 @@ class Program
 		public bool eos () {
 			return (currentNumber < 0);
 		}
-		public void reset () {
+		public virtual void reset () {
 			currentNumber = 0;
 		}
 	}
@@ -50,13 +34,31 @@ class Program
 		public override int next () {
 			if(!eos()) {
 				int output = currentNumber;
-				while(!(isPrime(++currentNumber)) && currentNumber > 0);
+				while(!(isPrime(++currentNumber)) && currentNumber >= 0);
 				return output;
 			}
 			else {
 				Console.WriteLine("End of stream.");
 				return -1;
 			}
+		}
+		public override void reset () {
+			currentNumber = 2;
+		}
+		private bool isPrime(int number) {
+			if(number == 2) {
+				return true;
+			}
+			if(number % 2 == 0 || number < 2) {
+				return false;
+			}
+			int numSqrt = (int)Math.Sqrt(number);
+			for(int i = 3; i <= numSqrt; i += 2) {
+				if(number % i == 0) {
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 
@@ -106,6 +108,9 @@ class Program
 				return "";
 			}
 		}
+		public void reset () {
+			ps.reset();
+		}
 	}
 
 	static void Main () {
@@ -126,6 +131,11 @@ class Program
 		}
 		RandomWordStream rws = new RandomWordStream();
 		Console.WriteLine("--- RandomWordStream: ---");
+		for(int i = 0; i < 10; i++) {
+			Console.WriteLine(rws.next());
+		}
+		Console.WriteLine("--- RandomWordStream reset: ---");
+		rws.reset();
 		for(int i = 0; i < 10; i++) {
 			Console.WriteLine(rws.next());
 		}
