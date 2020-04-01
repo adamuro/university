@@ -79,18 +79,18 @@ class Program {
 		foreach(int p in pc) {
 			Console.WriteLine(p);
 		}
-	/*	* Wypisuje kolejne liczby pierwsze.
-	 *	pc = new PrimeCollection();
-	 *	foreach(int p in pc) {
-	 *		Console.WriteLine(p);
-	 *	}
- 	 *
-	 *	* Wypisuje kolejne liczby pierwsze większe od 30.
-	 *	pc = new PrimeCollection(30);
-	 *	foreach(int p in pc) {
-	 *		Console.WriteLine(p);
-	 *	}
-	 */	
+	/*	Wypisuje kolejne liczby pierwsze.
+	 	pc = new PrimeCollection();
+	 	foreach(int p in pc) {
+	 		Console.WriteLine(p);
+	 	}
+ 	 
+	 	* Wypisuje kolejne liczby pierwsze większe od 30.
+	 	pc = new PrimeCollection(30);
+	 	foreach(int p in pc) {
+	 		Console.WriteLine(p);
+	 	}
+	*/	
 		return;
 	}
 }
