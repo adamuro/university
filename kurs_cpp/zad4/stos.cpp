@@ -44,7 +44,7 @@ stos& stos::operator= (stos &s) {
 stos::stos (stos &&s) :
 	pojemnosc(std::exchange(s.pojemnosc, 0)),
 	ile(std::exchange(s.ile, 0)),
-	tablica(std::move(s.tablica)) {
+	tablica(std::exchange(s.tablica, nullptr)) {
 		std::cout << "Konstruktor przenoszący." << std::endl;
 	}
 
@@ -52,9 +52,13 @@ stos& stos::operator= (stos &&s) {
 	std::cout << "Przypisanie przenoszące." << std::endl;
 	pojemnosc = std::exchange(s.pojemnosc, 0);
 	ile = std::exchange(s.ile, 0);
-	tablica = std::move(s.tablica);
+	tablica = std::exchange(s.tablica, nullptr);
 
 	return *this;
+}
+
+stos::~stos () {
+	delete tablica;
 }
 
 void stos::wloz (std::string element) {
@@ -72,6 +76,7 @@ std::string stos::sciagnij () {
 	if(ile > 0) {
 		ile--;
 		std::string out = tablica[ile];
+		delete &tablica[ile];
 		return out;
 	}
 	else {

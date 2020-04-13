@@ -11,6 +11,7 @@ public:
 	stos& operator= (stos &s);
 	stos (stos &&s);
 	stos& operator= (stos &&s);
+	~stos ();
 
 	void wloz (std::string);
 	std::string sciagnij ();
