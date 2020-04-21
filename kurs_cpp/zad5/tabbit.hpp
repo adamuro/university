@@ -12,7 +12,6 @@ class tab_bit
 	class ref {
 	public:
         ref (const tab_bit &tb, int i);
-        ref (tab_bit &tb, int i, bool b);
         operator bool ();
         ref & operator= (bool b) noexcept;
         ref & operator= (ref &reference);
