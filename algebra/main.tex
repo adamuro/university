@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage[utf8]{inputenc}
+\usepackage[margin = 0.7in]{geometry}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\newcommand{\comment}[1]{}
+
+\title{Algebra Zadanie 4 - Lista 6}
+\date{April 2020}
+
+\begin{document}
+
+\maketitle
+
+\section*{Treść zadania:}
+
+\textbf{Zadanie 4.} Rozwiąż przy użyciu wzorów Cramera, tj $x_i = 
+\frac{det(A_{x_i})}{det(A)}$, układy równań:
+
+\begin{center}
+    $\begin{bmatrix}2&-1\\1&16\end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\end{bmatrix}=
+    \begin{bmatrix}1\\17\end{bmatrix},\ 
+    \begin{bmatrix}cos\ \alpha&sin\ \alpha\\-sin\ \alpha&cos\ \alpha\end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\end{bmatrix}=
+    \begin{bmatrix}cos\ \beta\\sin\ \beta\end{bmatrix},\ 
+    \begin{bmatrix}1&1&1\\-1&1&1\\1&-1&1\end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=
+    \begin{bmatrix}6\\0\\2\end{bmatrix}$
+\end{center}
+
+\section*{Pierwszy układ:}
+
+\begin{center}
+    $\begin{bmatrix}2&-1\\1&16\end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\end{bmatrix}=
+    \begin{bmatrix}1\\17\end{bmatrix}$
+\end{center}
+\noindent
+Macierze $A, A_{x_1}$ oraz $A_{x_2}$ wyglądają następująco:
+
+\begin{center}
+    $A = \begin{bmatrix}2&-1\\1&16\end{bmatrix}$,\ 
+    $A_{x_1} = \begin{bmatrix}1&-1\\17&16\end{bmatrix}$,\ 
+    $A_{x_2} = \begin{bmatrix}2&1\\1&17\end{bmatrix}$
+
+\end{center}
+\noindent
+Liczymy ich wyznaczniki za pomocą metody Sarrusa.
+
+\begin{center}
+    $det(A) = 2 \cdot 16 - 2 \cdot (-1) = 33$\\
+    $det( A_{x_1} ) = 1 \cdot 16 - 17 \cdot (-1) = 33$\\
+    $det( A_{x_2} ) = 2 \cdot 17 - 1 \cdot 1 = 33$
+\end{center}
+\noindent
+Obliczamy rozwiązanie korzystając ze wzorów Cramera:
+\begin{center}
+    $x_1 = x_2 = \frac{33}{33} = 1$\\
+\end{center}
+
+\section*{Drugi układ:}
+
+\begin{center}
+    $\begin{bmatrix}cos\ \alpha&sin\ \alpha\\-sin\ \alpha&cos\ \alpha\end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\end{bmatrix}=
+    \begin{bmatrix}cos\ \beta\\sin\ \beta\end{bmatrix}$
+\end{center}
+\noindent
+Macierze $A, A_{x_1}$ oraz $A_{x_2}$ wyglądają następująco:
+
+\begin{center}
+    $A = \begin{bmatrix}cos\ \alpha&sin\ \alpha\\-sin\ \alpha&cos\ \alpha\end{bmatrix}$,\ 
+    $A_{x_1} = \begin{bmatrix}cos\ \beta&sin\ \alpha\\sin\ \beta&cos\ \alpha\end{bmatrix}$,\ 
+    $A_{x_2} = \begin{bmatrix}cos\ \alpha&cos\ \beta\\-sin\ \alpha&sin\ \beta\end{bmatrix}$
+
+\end{center}
+\noindent
+Liczymy ich wyznaczniki za pomocą metody Sarrusa.
+
+\begin{center}
+    $det(A) = cos\ \alpha \cdot cos\ \alpha - sin\ \alpha \cdot 
+    (-sin\ \alpha) = sin^2\alpha + cos^2\alpha = 1$\\
+    $det( A_{x_1} ) = cos\ \beta \cdot cos\ \alpha - sin\ \beta 
+    \cdot sin\ \alpha = cos(\alpha + \beta)$\\
+    $det( A_{x_2} ) = cos \ \alpha \cdot sin\ \beta - cos\ \beta 
+    \cdot (-sin\ \alpha) = sin\ \alpha \cdot cos\ \beta + sin\ \beta\cdot cos\ \alpha = sin(\alpha + \beta)$
+\end{center}
+\noindent
+Obliczamy rozwiązanie korzystając ze wzorów Cramera:
+\begin{center}
+    $x_1 = \frac{cos(\alpha + \beta)}{1} = cos(\alpha + \beta)$,\ 
+    $x_2 = \frac{sin(\alpha + \beta)}{1} = sin(\alpha + \beta)$
+\end{center}
+
+\newpage
+\section*{Trzeci układ:}
+
+\begin{center}
+    $\begin{bmatrix}1&1&1\\-1&1&1\\1&-1&1\end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}=
+    \begin{bmatrix}6\\0\\2\end{bmatrix}$
+\end{center}
+\noindent
+Macierze $A, A_{x_1}$, $A_{x_2}$ oraz $A_{x_3}$ wyglądają następująco:
+
+\begin{center}
+    $A = \begin{bmatrix}1&1&1\\-1&1&1\\1&-1&1\end{bmatrix}$,\ 
+    $A_{x_1} = \begin{bmatrix}6&1&1\\0&1&1\\2&-1&1\end{bmatrix}$,\ 
+    $A_{x_2} = \begin{bmatrix}1&6&1\\-1&0&1\\1&2&1\end{bmatrix}$,\ 
+    $A_{x_3} = \begin{bmatrix}1&1&6\\-1&1&0\\1&-1&2\end{bmatrix}$
+
+\end{center}
+\noindent
+Liczymy ich wyznaczniki za pomocą metody Sarrusa.
+
+\begin{center}
+    $det(A) = 1 \cdot 1 \cdot 1 + 1 \cdot 1 \cdot 1 + 1 \cdot (-1) 
+    \cdot (-1) - 1 \cdot 1 \cdot 1 - 1 \cdot (-1) \cdot 1 - 1 \cdot (-1) \cdot 1 = 1 + 1 + 1 - 1 + 1 + 1 = 4$\\
+    $det(A_{x_1}) = 6 \cdot 1 \cdot 1 + 1 \cdot 1 \cdot 2 + 0 \cdot (-1) \cdot 1 - 2 \cdot 1 \cdot 1 - 6 \cdot 1 \cdot (-1) - 0 
+    \cdot 1 \cdot 1 = 6 + 2 - 2 + 6 = 12$\\
+    $det(A_{x_2} ) = 1 \cdot 0 \cdot 1 + 6 \cdot 1 \cdot 1 + (-1) 
+    \cdot 2 \cdot 1 - 1 \cdot 0 \cdot 1 - 1 \cdot 2 \cdot 1 - 6 
+    \cdot (-1) \cdot 1 = 6 - 2 - 2 + 6 = 8$\\
+    $det(A_{x_3} ) = 1 \cdot 1 \cdot 2 + 1 \cdot 0 \cdot 1 + (-1) 
+    \cdot (-1) \cdot 6 - 6 \cdot 1 \cdot 1 - 1 \cdot (-1) \cdot 2 - (-1) \cdot 0 \cdot 1 = 2 + 6 - 6 + 2 = 4$
+\end{center}
+\noindent
+Obliczamy rozwiązanie korzystając ze wzorów Cramera:
+\begin{center}
+    $x_1 = \frac{12}{4} = 3$,\ 
+    $x_2 = \frac{8}{4} = 2$,\ 
+    $x_3 = \frac{4}{4} = 1$
+\end{center}
+\end{document}
