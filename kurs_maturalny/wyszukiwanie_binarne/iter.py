@@ -1,17 +1,17 @@
-from math import floor
+from math import floor, ceil
 
 def binarySearch(list, l, r, x):
-  while l <= r:
-    s = floor((l + r) / 2)
-    if list[s] == x:
-      return s
+  while l < r:
+    s = ceil((l + r) / 2)
+    # if list[s] == x:
+    #   return s
 
     if list[s] > x:
       r = s - 1
     else:
-      l = s + 1
+      l = s
   
-  return -1
+  return l
 
 list = [1, 3, 4, 7, 8, 10, 14, 16, 17, 20]
 
