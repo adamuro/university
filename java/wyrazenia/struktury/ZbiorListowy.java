@@ -37,12 +37,12 @@ public class ZbiorListowy implements Zbior, Cloneable {
     if (this.lista == null) {
       this.lista = new Wezel(p);
       this.licznosc += 1;
-    } else if (this.lista.para.klucz == p.klucz) {
+    } else if (this.lista.para.klucz.equals(p.klucz)) {
       this.lista = new Wezel(p, this.lista.nast);
     } else {
       Wezel aktualnyWezel = this.lista;
       while (aktualnyWezel.nast != null) {
-        if (aktualnyWezel.nast.para.klucz == p.klucz) {
+        if (aktualnyWezel.nast.para.klucz.equals(p.klucz)) {
           aktualnyWezel.nast = new Wezel(p, aktualnyWezel.nast.nast);
           return;
         }
@@ -59,13 +59,13 @@ public class ZbiorListowy implements Zbior, Cloneable {
   public void usun(String k) {
     if (this.lista == null) return;
 
-    if (this.lista.para.klucz == k) {
+    if (this.lista.para.klucz.equals(k)) {
       this.lista = this.lista.nast;
       this.licznosc -= 1;
     } else {
       Wezel aktualnyWezel = this.lista;
       while (aktualnyWezel.nast != null) {
-        if (aktualnyWezel.nast.para.klucz == k) {
+        if (aktualnyWezel.nast.para.klucz.equals(k)) {
           aktualnyWezel.nast = aktualnyWezel.nast.nast;
           this.licznosc -= 1;
         }

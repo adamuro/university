@@ -24,6 +24,10 @@ public class Para implements Cloneable, Comparable<Para> {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
         if (obj.getClass() != Para.class) {
             return false;
         }

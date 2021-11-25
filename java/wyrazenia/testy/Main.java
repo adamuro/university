@@ -6,6 +6,7 @@ import java.util.List;
 import obliczenia.Dodawanie;
 import obliczenia.Dzielenie;
 import obliczenia.Liczba;
+import obliczenia.Logarytm;
 import obliczenia.Minimum;
 import obliczenia.Mnozenie;
 import obliczenia.Modulo;
@@ -70,7 +71,7 @@ public class Main {
           new Liczba(3), 
           new Liczba(11)
         ), 
-        new Liczba(-1)
+        new Liczba(1)
       ), 
       new Dodawanie(
         new Zmienna("y"), 
@@ -92,9 +93,14 @@ public class Main {
         new Liczba(2)
       )
     ));
+    wyrazenia.add(new Logarytm(new Liczba(2), new Liczba(4)));
+    wyrazenia.add(new Logarytm(new Liczba(3), new Liczba(20)));
+
+    Zmienna.zbior.wstaw(new Para("x", 2));
+    Zmienna.zbior.wstaw(new Para("y", 7));
 
     for (Wyrazenie wyrazenie : wyrazenia) {
-      System.out.println(wyrazenia.toString() + " = " + wyrazenie.oblicz());
+      System.out.println(wyrazenie.toString() + " = " + wyrazenie.oblicz());
     }
   }
 }
