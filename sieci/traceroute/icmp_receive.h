@@ -9,7 +9,10 @@
 #include <sys/time.h>
 #include <time.h>
 
+#include "common.h"
+
 #define MAX_RECV_TIME 1
-#define MAX_PACKETS   3
+#define SEC_TO_MS 1000
+#define MS_TO_MICROSEC 1000
 
 int icmp_receive(int sockfd, char* dest_ip, int ttl);

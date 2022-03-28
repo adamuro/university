@@ -8,6 +8,6 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
-#define PACKETS 3
+#include "common.h"
 
-u_int16_t icmp_send(int sockfd, char* dest_ip, int ttl);
+ssize_t icmp_send(int sockfd, char* dest_ip, int ttl);

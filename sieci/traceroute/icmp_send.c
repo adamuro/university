@@ -11,34 +11,36 @@ u_int16_t compute_icmp_checksum (const void *buff, int length)
   return (u_int16_t)(~(sum + (sum >> 16)));
 }
 
-u_int16_t icmp_send(int sockfd, char* dest_ip, int ttl)
+ssize_t icmp_send(int sockfd, char* dest_ip, int ttl)
 {
   pid_t pid = getpid();
   struct icmp header;
-  header.icmp_type = ICMP_ECHO;
-  header.icmp_code = 0;
-  header.icmp_hun.ih_idseq.icd_id = pid;
-  header.icmp_hun.ih_idseq.icd_seq = ttl;
+  header.icmp_type  = ICMP_ECHO;
+  header.icmp_code  = 0;
+  header.icmp_id    = pid;
+  header.icmp_seq   = ttl;
   header.icmp_cksum = 0;
   header.icmp_cksum = compute_icmp_checksum((uint16_t*) &header, sizeof(header));
 
   struct sockaddr_in recipent;
   bzero(&recipent, sizeof(recipent));
   recipent.sin_family = AF_INET;
-  inet_pton(AF_INET, dest_ip, &recipent.sin_addr);
-
-  if (setsockopt(sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(int))) {
-    fprintf(stderr, "select error: %s\n", strerror(errno)); 
-    return EXIT_FAILURE;
+  if (inet_pton(AF_INET, dest_ip, &recipent.sin_addr) <= 0) {
+    fprintf(stderr, "inet_pton error: %s\n", strerror(errno)); 
+    return -1;
   }
 
-  int packets_sent = 0;
-  for (int i = 0; i < PACKETS; i++) {
+  if (setsockopt(sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(int)) < 0) {
+    fprintf(stderr, "setsockopt error: %s\n", strerror(errno)); 
+    return -1;
+  }
+
+  ssize_t packets_sent = 0;
+  while (packets_sent++ < PACKETS_SENT) {
     ssize_t bytes_sent = sendto(sockfd, &header, sizeof(header), 0, (struct sockaddr*) &recipent, sizeof(recipent));
-    packets_sent++;
     if (bytes_sent < 0) {
-      fprintf(stderr, "select error: %s\n", strerror(errno)); 
-      return EXIT_FAILURE;
+      fprintf(stderr, "sendto error: %s\n", strerror(errno)); 
+      return -1;
     }
   }
 
