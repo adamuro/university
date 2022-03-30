@@ -27,7 +27,7 @@ void print_packetloss(u_int16_t ttl, char** ip_addrs, ssize_t n)
   printf("???\n");
 }
 
-void print_allrecvd(uint16_t ttl, char* ip_addrs[20], ssize_t n, u_int32_t rtt)
+void print_allrecvd(uint16_t ttl, char** ip_addrs, ssize_t n, u_int32_t rtt)
 {
   printf("%d. ", ttl);
   print_ip_addrs(ip_addrs, n);
@@ -63,6 +63,7 @@ int16_t icmp_id_seq(u_int8_t* buffer, uint16_t* id, uint16_t* seq)
   if (icmp_header->icmp_type != ICMP_ECHOREPLY && icmp_header->icmp_type != ICMP_TIME_EXCEEDED)
     return -1;
 
+  /* ICMP packets with type ICMP_TIME_EXCEEDED contain original IP header and 8 bytes of original IP packet */
   if (icmp_header->icmp_type == ICMP_TIME_EXCEEDED)
     icmp_header = (void*)icmp_header + ip_header_len(ip_header) + 8;
 
@@ -129,7 +130,8 @@ int icmp_receive(int sockfd, char* dest_ip, int ttl)
     if (icmp_type < 0)
       continue;
 
-    if (id != getpid() || seq != ttl)
+    pid_t pid = getpid();
+    if (id != pid || seq != ttl)
       continue;
 
     if (!recvd_from(ip_addrs, ip_addrs_size, sender_ip))

@@ -1,7 +1,7 @@
 .PHONY = all clean
 
 CC = gcc
-CFLAGS = -W -Wall -O2
+CFLAGS = -W -Wall -std=c99
 
 TARGET   = traceroute
 SRCS     = $(wildcard *.c)
@@ -16,4 +16,7 @@ $(TARGET): $(OBJFILES)
 	${CC} -c $<
 
 clean:
-	rm -rvf $(OBJFILES) ${TARGET}
+	rm -rvf $(OBJFILES)
+
+distclean:
+	rm -rvf $(OBJFILES) $(TARGET)

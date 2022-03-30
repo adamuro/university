@@ -26,7 +26,7 @@ ssize_t icmp_send(int sockfd, char* dest_ip, int ttl)
   bzero(&recipent, sizeof(recipent));
   recipent.sin_family = AF_INET;
   if (inet_pton(AF_INET, dest_ip, &recipent.sin_addr) <= 0) {
-    fprintf(stderr, "inet_pton error: %s\n", strerror(errno)); 
+    fprintf(stderr, "inet_pton error - invalid ip address\n"); 
     return -1;
   }
 

@@ -3,7 +3,7 @@
 int main(int argc, char *argv[])
 {
   if (argc != 2) {
-      fprintf(stderr, "No destination IP address specified\n"); 
+      fprintf(stderr, "proper usage: ./traceroute <ip_address>\n"); 
       return EXIT_FAILURE;
   }
 
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
   }
 
-  for (int ttl = 1; ttl < MAX_TTL; ttl++)
+  for (int ttl = 1; ttl <= MAX_TTL; ttl++)
   {
     ssize_t packets_sent = icmp_send(sockfd, dest_ip, ttl);
     if (packets_sent < 0) {
