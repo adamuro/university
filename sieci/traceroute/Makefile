@@ -1,7 +1,7 @@
 .PHONY = all clean
 
 CC = gcc
-CFLAGS = -W -Wall -std=c99
+CFLAGS = -Wextra -Wall -std=c99
 
 TARGET   = traceroute
 SRCS     = $(wildcard *.c)
