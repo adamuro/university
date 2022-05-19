@@ -31,19 +31,22 @@ int main(int argc, char const *argv[]) {
     return EXIT_FAILURE;
   }
 
-  int sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+  int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
   struct sockaddr_in addr;
   addr.sin_family = AF_INET;
-  addr.sin_port = htonl(port);
-  addr.sin_addr = ip;
+  addr.sin_port = htons(port);
+  addr.sin_addr.s_addr = inet_addr(argv[1]);
   if (connect(sockfd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
     fprintf(stderr, "connect error: %s\n", strerror(errno));
     return EXIT_FAILURE;
   }
 
   char send_buf[64];
-  int send_bufsize = sprintf(send_buf, "GET %d %d\n", 0, 10);
-  send(sockfd, send_buf, send_bufsize, 0);
+  int send_bufsize = sprintf(send_buf, "GET %d %d\n", 0, 100);
+  if(send(sockfd, send_buf, send_bufsize, 0) < 0) {
+    fprintf(stderr, "connect error: %s\n", strerror(errno));
+    return EXIT_FAILURE;
+  }
 
   struct timeval tv;
   tv.tv_sec  = 2;
@@ -66,10 +69,12 @@ int main(int argc, char const *argv[]) {
 
   char recv_buf[2048];
   recv(sockfd, recv_buf, sizeof(recv_buf), 0);
-  printf("%c\n", recv_buf[0]);
 
   uint32_t start, len;
   sscanf(recv_buf, "DATA %u %u\n", &start, &len);
+
+  printf("%s\n", recv_buf);
+
 
   return 0;
 }
