@@ -76,8 +76,6 @@ int swin_recv(int sockfd, struct sliding_window *swin) {
   return recvd;
 }
 
-
-/* Test comment */
 void swin_init(struct sliding_window *swin, u_int32_t const filesize) {
   swin->seg_file = seg_file(filesize);
   swin->filesize = filesize;
