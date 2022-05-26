@@ -21,16 +21,16 @@ int main(int argc, char const *argv[]) {
     return EXIT_FAILURE;
   }
 
-  int filefd = creat(file, 00644);
-  int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
-  if (filefd < 0) {
-    fprintf(stderr, "creat error: %s\n", strerror(errno));
+  int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+  if (sockfd < 0) {
+    fprintf(stderr, "socket error: %s\n", strerror(errno));
     return EXIT_FAILURE;
   }
 
-  if (sockfd < 0) {
-    fprintf(stderr, "socket error: %s\n", strerror(errno));
+  int filefd = creat(file, 00644);
+  if (filefd < 0) {
+    fprintf(stderr, "creat error: %s\n", strerror(errno));
     return EXIT_FAILURE;
   }
 
@@ -38,11 +38,13 @@ int main(int argc, char const *argv[]) {
   addr.sin_family = AF_INET;
   addr.sin_port = htons(port);
   if (inet_pton(AF_INET, ip, &addr.sin_addr) <= 0) {
+    close(filefd);
     fprintf(stderr, "Invalid ip address\n");
     return EXIT_FAILURE;
   }
 
   if (connect(sockfd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+    close(filefd);
     fprintf(stderr, "connect error: %s\n", strerror(errno));
     return EXIT_FAILURE;
   }
@@ -51,12 +53,20 @@ int main(int argc, char const *argv[]) {
   swin_init(&swin, size);
 
   while(swin.seg_wrtn != swin.seg_file) {
-    if (swin_reqall(sockfd, swin) < 0)
+    if (swin_reqall(sockfd, swin) < 0) {
+      close(filefd);
       return EXIT_FAILURE;
-    if (swin_recvall(sockfd, &swin) < 0)
+    }
+
+    if (swin_recvall(sockfd, &swin) < 0) {
+      close(filefd);
       return EXIT_FAILURE;
-    if (swin_write(filefd, &swin) < 0)
+    }
+    
+    if (swin_write(filefd, &swin) < 0) {
+      close(filefd);
       return EXIT_FAILURE;
+    }
   }
 
   close(filefd);

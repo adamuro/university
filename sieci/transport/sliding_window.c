@@ -23,7 +23,7 @@ u_int32_t seg_itos(u_int32_t const id) {
 }
 
 u_int32_t seg_len(u_int32_t const id, struct sliding_window swin) {
-  return (id != swin.seg_file - 1) ? SEGMENT_SIZE : swin.filesize % SEGMENT_SIZE;
+  return (id != swin.seg_file - 1 || swin.filesize % SEGMENT_SIZE == 0) ? SEGMENT_SIZE : swin.filesize % SEGMENT_SIZE;
 }
 
 uint32_t seg_stoi(u_int32_t start) {
@@ -46,6 +46,15 @@ void seg_parsebuf(char *buf, u_int32_t *start, u_int32_t *len, u_int32_t *id) {
 
 /* Main functions */
 
+void swin_init(struct sliding_window *swin, u_int32_t const filesize) {
+  swin->seg_file = seg_file(filesize);
+  swin->filesize = filesize;
+  swin->seg_wrtn = 0;
+
+  bzero(swin->seg_rcvd, sizeof(swin->seg_rcvd));
+  bzero(swin->segments, sizeof(swin->segments));
+}
+
 int swin_req(int sockfd, u_int32_t const id, struct sliding_window swin) {
   if (swin_segrcvd(swin, id))
     return 0;
@@ -56,6 +65,18 @@ int swin_req(int sockfd, u_int32_t const id, struct sliding_window swin) {
   size_t buflen = sprintf(buf, "GET %d %d\n", start, len);
 
   return send(sockfd, buf, buflen, 0);
+}
+
+int swin_reqall(int sockfd, struct sliding_window swin) {
+  for (u_int32_t id = swin.seg_wrtn; id < swin_maxiter(swin); id++) {
+    int sent = swin_req(sockfd, id, swin);
+    if (sent < 0) {
+      fprintf(stderr, "send error: %s\n", strerror(errno));
+      return sent;
+    }
+  }
+
+  return 0;
 }
 
 int swin_recv(int sockfd, struct sliding_window *swin) {
@@ -74,27 +95,6 @@ int swin_recv(int sockfd, struct sliding_window *swin) {
   swin_segrcv(swin, id, content, len);
 
   return recvd;
-}
-
-void swin_init(struct sliding_window *swin, u_int32_t const filesize) {
-  swin->seg_file = seg_file(filesize);
-  swin->filesize = filesize;
-  swin->seg_wrtn = 0;
-
-  bzero(swin->seg_rcvd, sizeof(swin->seg_rcvd));
-  bzero(swin->segments, sizeof(swin->segments));
-}
-
-int swin_reqall(int sockfd, struct sliding_window swin) {
-  for (u_int32_t id = swin.seg_wrtn; id < swin_maxiter(swin); id++) {
-    int sent = swin_req(sockfd, id, swin);
-    if (sent < 0) {
-      fprintf(stderr, "send error: %s\n", strerror(errno));
-      return sent;
-    }
-  }
-
-  return 0;
 }
 
 int swin_recvall(int sockfd, struct sliding_window *swin) {
