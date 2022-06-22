@@ -70,5 +70,5 @@ int main(int argc, char const *argv[]) {
   }
 
   close(filefd);
-  return 0;
+  return EXIT_SUCCESS;
 }

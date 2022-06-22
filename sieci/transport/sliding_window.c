@@ -135,6 +135,7 @@ int swin_write(int filefd, struct sliding_window *swin) {
     }
   }
 
+  /* Move the sliding window to override the segments written to file */
   memcpy(swin->seg_rcvd, swin->seg_rcvd + seg_wrtn, (WINDOW_SIZE - seg_wrtn) * sizeof(u_int8_t));
   bzero(swin->seg_rcvd + WINDOW_SIZE - seg_wrtn, seg_wrtn * sizeof(u_int8_t));
   memcpy(swin->segments, swin->segments + seg_wrtn, (WINDOW_SIZE - seg_wrtn) * SEGMENT_SIZE * sizeof(char));
