@@ -2,13 +2,15 @@ fn dna_strand(dna: &str) -> String {
     let mut result = "".to_owned();
 
     for c in dna.chars() {
-        match c {
-            'A' => result.push_str("T"),
-            'T' => result.push_str("A"),
-            'C' => result.push_str("G"),
-            'G' => result.push_str("C"),
-            _ => {}
-        }
+        result.push_str(
+            match c {
+                'A' => "T",
+                'T' => "A",
+                'C' => "G",
+                'G' => "C",
+                _ => ""
+            }
+        )
     }
 
     return result;
