@@ -62,7 +62,7 @@ img.image {
 }
 
 html * {
-  font-size: inherit;
+  font-size: 1rem;
 }
 
 h2 {
