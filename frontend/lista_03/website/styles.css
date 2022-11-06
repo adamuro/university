@@ -82,7 +82,7 @@ body {
 .warning {
   width: 70%;
   min-width: 500px;
-  border: #FAF9F8 3px solid;
+  border: 3px #FAF9F8 solid;
   border-radius: 20px;
 }
 
@@ -93,6 +93,11 @@ body {
 .warning__wrapper {
   display: flex;
   justify-content: center;
+}
+
+.warning__figure {
+  margin-block-start: 0;
+  margin-inline-end: 2rem;
 }
 
 /* Galeria */
