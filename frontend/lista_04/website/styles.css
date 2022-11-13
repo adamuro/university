@@ -1,0 +1,19 @@
+input,
+label {
+  display: block;
+}
+
+.contact_form__main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+input {
+  outline: none;
+}
+
+input:invalid {
+  border: 2px solid red;
+}

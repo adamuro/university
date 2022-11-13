@@ -1,5 +1,5 @@
-* {
-  background-color: #FBF5F5;
+html {
+  background-color: #fbf5f5;
 }
 
 body {
@@ -14,13 +14,12 @@ body {
 
 /* Header */
 
-.main_header, .main_header * {
+.main_header {
   background-color: white;
 }
 
 .main_header {
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1;
 }
 
 /* Nawigacja */
@@ -52,8 +51,8 @@ body {
 
 /* Main */
 
-.content__main, .content__main * {
-  background-color: #ECECF7;
+.content__main {
+  background-color: #ececf7;
 }
 
 .content__main {
@@ -76,7 +75,7 @@ body {
 }
 
 .article:nth-of-type(3) {
-  clear: left;
+  clear: both;
 }
 
 /* Warning */
@@ -84,12 +83,9 @@ body {
 .warning {
   width: 70%;
   min-width: 500px;
-  border: 3px #FAF9F8 solid;
+  border: 3px #faf9f8 solid;
   border-radius: 20px;
-}
-
-.warning__wrapper * {
-  background-color: #F4C5B7;
+  background-color: #f4c5b7;
 }
 
 .warning__wrapper {
@@ -152,7 +148,7 @@ body {
 /* Czcionka */
 
 * {
-  font-family: roboto, Arial;
+  font-family: Roboto, Arial;
 }
 
 .main_header__header {
