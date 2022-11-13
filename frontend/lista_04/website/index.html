@@ -3,22 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="styles.css" />
     <title>Form</title>
   </head>
+
   <body>
-    <header class="main_header">
-      <h1 class="main_header__header">Contact us!</h1>
-    </header>
-    <main class="contact_form__main">
-      <form class="contact_form">
-        <label for="email">Email (required):
-        <input id="email" type="email" name="email" />
-      </form>
-    </main>
+    <div class="card">
+      <header class="main_header">
+        <h1 class="main_header__header">Contact us!</h1>
+      </header>
+      <main>
+        <form class="contact_form">
+          <div class="contact_form__field contact_form__field--column contact_form__field--name">
+            <label for="name">Name (required):</label>
+            <input id="name" type="text" name="name" required />
+          </div>
+          <div class="contact_form__field contact_form__field--column contact_form__field--surname">
+            <label for="surname">Surname:</label>
+            <input id="surname" type="text" name="surname" />
+          </div>
+          <div class="contact_form__field contact_form__field--column contact_form__field--email">
+            <label for="email">Email (required):</label>
+            <input id="email" type="email" name="email" required />
+          </div>
+          <div class="contact_form__field contact_form__field--column contact_form__field--phone">
+            <label for="phone">Phone:</label>
+            <input
+              id="phone"
+              type="tel"
+              name="phone"
+              placeholder="123456789"
+              pattern="\d+"
+              minlength="9"
+              maxlength="9"
+            />
+          </div>
+          <div class="contact_form__field contact_form__field--column contact_form__field--reason">
+            <label for="reason">Reason (required):</label>
+            <select id="reason" name="reason" required>
+              <option value="">-- select one option --</option>
+              <option value="business-offer">Business offer</option>
+              <option value="question">Question</option>
+              <option value="complaint">Complaint</option>
+            </select>
+          </div>
+          <div class="contact_form__field contact_form__field--column contact_form__field--message">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <div class="contact_form__field contact_form__field--center contact_form__field--subscription">
+            <input id="subscription" type="checkbox" name="subscription" />
+            <label for="subscription">Subscribe to the newsletter</label>
+          </div>
+          <button class="button button--submit contact_form__field--submit" type="submit">Submit</button>
+        </form>
+      </main>
+    </div>
   </body>
 </html>

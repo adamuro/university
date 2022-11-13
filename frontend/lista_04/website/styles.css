@@ -1,19 +1,125 @@
-input,
-label {
-  display: block;
+html {
+  font-size: 16px;
+  background-color: #fbf5f5;
 }
 
-.contact_form__main {
+html * {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto
+}
+
+.main_header__header {
+  text-align: center;
+  font-size: clamp(1rem, calc(1rem + 6vw), 3rem);
+}
+
+.card {
+  margin-left: 10vw;
+  margin-right: 10vw;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.1);
 }
 
-input {
-  outline: none;
+.contact_form__field--name {
+  grid-area: name;
+}
+.contact_form__field--surname {
+  grid-area: surname;
+}
+.contact_form__field--email {
+  grid-area: email;
+}
+.contact_form__field--phone {
+  grid-area: phone;
+}
+.contact_form__field--reason {
+  grid-area: reason;
+}
+.contact_form__field--message {
+  grid-area: message;
+}
+.contact_form__field--subscription {
+  grid-area: subscription;
+}
+.contact_form__field--submit {
+  grid-area: submit;
+}
+
+.contact_form__field {
+  display: flex;
+  justify-content: center;
+}
+
+.contact_form__field--column {
+  flex-direction: column;
+}
+
+.contact_form__field--center {
+  align-items: center;
+}
+
+.contact_form {
+  padding: 10px;
+  gap: 10px;
+}
+
+@media (min-width: 600px) {
+  .contact_form {
+    display: grid;
+    grid-template-areas: 
+    "name surname"
+    "email phone"
+    "reason reason"
+    "message message"
+    "subscription subscription"
+    "submit submit";
+  }
+}
+
+@media (max-width: 600px) {
+  .contact_form {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+textarea {
+  resize: none;
 }
 
 input:invalid {
+  outline: none;
   border: 2px solid red;
+}
+
+textarea:invalid {
+  outline: none;
+  border: 1px solid red;
+}
+
+.button {
+  border: none;
+  border-radius: 5px;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.button--submit {
+  color: white;
+  background-color: blue;
+}
+
+.button--submit:hover {
+  background-color: rgb(0, 0, 133);
+}
+
+input, select, textarea, label, button {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+@media (pointer: none) {
+  input[type="checkbox"] {
+    transform: scale(2);
+  }
 }
