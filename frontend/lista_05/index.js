@@ -12,7 +12,7 @@ function generateId() {
  * Creates product object with given attributes.
  * @param {string} name name of new product
  * @param {number} quantity quantity of new product
- * @param {string} purchaseDate date on which the product should be bought
+ * @param {string} purchaseDate date on which the product should be purchased
  * @param {boolean} purchased information about state of the product
  * @returns created product object (without id and index).
  */
@@ -20,7 +20,9 @@ function createProduct(name, quantity, purchaseDate, purchased) {
   return {
     name: name,
     quantity: quantity || 0,
-    purchaseDate: isNaN(new Date(purchaseDate)) ? new Date() : new Date(purchaseDate),
+    purchaseDate: isNaN(new Date(purchaseDate))
+      ? new Date()
+      : new Date(purchaseDate),
     purchased: purchased || false,
   };
 }
@@ -72,7 +74,9 @@ function removeProduct(id) {
   const removedProductIndex = findProduct(id).index;
   products = products.filter((product) => product.id !== id);
   products = products.map((product) =>
-    product.index > removedProductIndex ? { ...product, index: product.index - 1 } : product
+    product.index > removedProductIndex
+      ? { ...product, index: product.index - 1 }
+      : product
   );
 }
 
@@ -86,7 +90,9 @@ function removeProduct(id) {
  */
 function updateProduct(id, name, quantity, purchaseDate, purchased) {
   const product = createProduct(name, quantity, purchaseDate, purchased);
-  products = products.map((prev) => (prev.id === id ? { id, index: prev.index, ...product } : prev));
+  products = products.map((prev) =>
+    prev.id === id ? { id, index: prev.index, ...product } : prev
+  );
 }
 
 /**
@@ -99,8 +105,10 @@ function swapProducts(idFirst, idSecond) {
   const productSecond = findProduct(idSecond);
 
   products = products.map((product) => {
-    if (product.id === idFirst) return { ...product, index: productSecond.index };
-    if (product.id === idSecond) return { ...product, index: productFirst.index };
+    if (product.id === idFirst)
+      return { ...product, index: productSecond.index };
+    if (product.id === idSecond)
+      return { ...product, index: productFirst.index };
     return product;
   });
 }
@@ -111,7 +119,9 @@ function swapProducts(idFirst, idSecond) {
  * @returns products which should be purchased on given day
  */
 function findProductsWhichShouldBePurchasedOnDay(date) {
-  return products.filter((product) => areDatesTheSameDay(date, product.purchaseDate));
+  return products.filter((product) =>
+    areDatesTheSameDay(date, product.purchaseDate)
+  );
 }
 
 /**
@@ -120,13 +130,16 @@ function findProductsWhichShouldBePurchasedOnDay(date) {
  */
 function findProductsWhichShouldBePurchasedToday() {
   const today = new Date();
-  return products.filter((product) => areDatesTheSameDay(today, product.purchaseDate));
+  return products.filter(
+    (product) =>
+      areDatesTheSameDay(today, product.purchaseDate) && !product.purchased
+  );
 }
 
 /**
  * Sets product price. If the product was not purchased it does nothing.
- * @param {*} id id of the product
- * @param {*} price price of the product
+ * @param {number} id id of the product
+ * @param {number} price price of the product
  */
 function setProductPrice(id, price) {
   products = products.map((product) =>
@@ -141,10 +154,12 @@ function setProductPrice(id, price) {
  * @returns total price of products purchased on given day
  */
 function calcProductsPurchasedOnDateTotalPrice(date) {
-  return findProductsWhichShouldBePurchasedOnDay(date).reduce(
-    (sum, product) => sum + ((product.purchased && product.price) || 0) * product.quantity,
-    0
-  );
+  return products
+    .filter(
+      (product) =>
+        areDatesTheSameDay(product.purchaseDate, date) && product.purchased
+    )
+    .reduce((sum, product) => sum + (product.price || 0) * product.quantity, 0);
 }
 
 /**
@@ -209,7 +224,9 @@ setProductPrice(id2, 3.21);
 console.table(products);
 
 console.log("> Calculate sum of added products prices 🧮");
-const totalPrice = calcProductsPurchasedOnDateTotalPrice(new Date("2022-11-19"));
+const totalPrice = calcProductsPurchasedOnDateTotalPrice(
+  new Date("2022-11-19")
+);
 console.log(totalPrice);
 
 console.log("> Format purchased products (multiply price) 🔮");
