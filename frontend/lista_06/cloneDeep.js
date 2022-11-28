@@ -1,6 +1,6 @@
 function parseClonedObject(clone, original) {
   for (const [key, value] of Object.entries(original)) {
-    if (value instanceof Object) parseClonedObject(value, clone[key]);
+    if (value instanceof Object) parseClonedObject(clone[key], value);
     if (value instanceof Date) clone[key] = new Date(clone[key]);
   }
 }
