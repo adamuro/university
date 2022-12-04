@@ -26,8 +26,10 @@
           </button>
         </form>
         <div class="todo_list__container container">
-          <h2 class="todo_list__header">Your todos:</h2>
-          <button id="remove-all-btn" class="button button--danger" type="button">Remove all</button>
+          <h2 class="todo_list__header">Your todos (<span id="todo-count"></span> left):</h2>
+          <button id="remove-all-btn" onclick="removeAllTodos()" class="button button--danger" type="button">
+            Remove all
+          </button>
           <ul id="todo-list" class="todo_list"></ul>
         </div>
       </main>
