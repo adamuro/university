@@ -95,7 +95,7 @@ function createPokemonInfoElement({ name, sprites, types }, species) {
 async function loadPokemonInfo(name) {
   const pokemonResponse = await fetchPokemon(name);
   const speciesResponse = await fetchPokemonSpecies(name);
-  if (pokemonResponse.status !== 200 || speciesResponse.status !== 200) {
+  if (pokemonResponse.ok || speciesResponse.ok) {
     console.log("error");
     const errorNotificationElement = createErrorNotification("Failed to load Pokemon");
     return pokemonInfoSectionElement.replaceChildren(errorNotificationElement);
