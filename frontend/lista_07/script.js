@@ -25,8 +25,8 @@ function saveTodos() {
 
 function loadTodos() {
   const todosJson = localStorage.getItem("todos");
-
   idSequence = localStorage.getItem("id") || 0;
+
   todos = JSON.parse(todosJson) || [];
   todos.forEach((todo) => {
     const todoElement = createTodoElement(todo);
@@ -88,7 +88,7 @@ function addTodo() {
 function removeTodo(id) {
   const todoElement = document.getElementById(id);
 
-  todoListElement.removeChild(todoElement);
+  todoElement.remove();
   todos = todos.filter((todo) => todo.id !== id);
 
   updateRemainingTodosCount();
@@ -120,7 +120,9 @@ function toggleTodo(id) {
     todoElement.classList.add("todo_list__item--done");
   }
 
-  todos = todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo));
+  todos = todos.map((todo) =>
+    todo.id === id ? { ...todo, done: !todo.done } : todo
+  );
 
   updateRemainingTodosCount();
   saveTodos();

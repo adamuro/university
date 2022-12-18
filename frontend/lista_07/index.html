@@ -15,7 +15,13 @@
       <main>
         <form class="todo_form container">
           <label class="todo_form__label" for="todo-input">New todo</label>
-          <input id="todo-input" class="todo_form__input" name="todo" type="text" placeholder="What to do?" />
+          <input
+            id="todo-input"
+            class="todo_form__input"
+            name="todo"
+            type="text"
+            placeholder="What to do?"
+          />
           <button
             id="todo-add-btn"
             onclick="addTodo()"
@@ -26,8 +32,15 @@
           </button>
         </form>
         <div class="todo_list__container container">
-          <h2 class="todo_list__header">Your todos (<span id="todo-count"></span> left):</h2>
-          <button id="remove-all-btn" onclick="removeAllTodos()" class="button button--danger" type="button">
+          <h2 class="todo_list__header">
+            Your todos (<span id="todo-count"></span> left):
+          </h2>
+          <button
+            id="remove-all-btn"
+            onclick="removeAllTodos()"
+            class="button button--danger"
+            type="button"
+          >
             Remove all
           </button>
           <ul id="todo-list" class="todo_list"></ul>

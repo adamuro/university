@@ -1,0 +1,73 @@
+-- 8, SP-GIST, range_ops, &&           -- Adam Turowski, 315391
+
+Nazwa SP-GIST oznacza space-partitioned generalized search tree. Taki typ indeksu dobrze sprawdza się przy pracy ze strukturami,
+które mogą zostać rekurencyjnie podzielone na nieprzecinające czy nienakładające się obszary. Jako przykład można podać indeksowanie
+punktów na mapie za pomocą quadtree. Mapa zostanie podzielona na cztery części, każda z nich podzielona na kolejne cztery itd.
+aż do momentu oddzielenia wszystkich punktów od siebie. Indeksowanie polega na tym, że dla każdego obszaru pamiętemy
+punkty centralne obszarów, na które został on podzielony, a liśćmi są ostateczne punkty. Podczas przeszukiwania takiej
+przestrzeni rozpatrujemy tylko obszary, które mogą zawierać punkty spełniające dane zapytanie.
+
+Range operators to klasa operatorów służących do porównań (np. równość, zawieranie, porównanie długości)
+oraz działań (np. suma, przecięcie) na obiektach typu range przy użyciu quadtree. Zakresy są wtedy traktowane jak pukty,
+gdzie dolna granica odpowiada współrzędnej x-owej, a górna współrzędnej y-owej.
+
+Operator && jest operatorem binarnym zwracającym informację o tym, czy dwie tablice mają wspólny element.
+
+- Eksperyment:
+
+- Utworzenie tabeli:
+
+CREATE TABLE random_points(id int, coordinates point);
+INSERT INTO random_points
+  SELECT generate_series(1, 100000), point((random()*100)::int, (random()*100)::int);
+
+- Zapytania przed dodaniem indeksu:
+
+EXPLAIN ANALYZE SELECT * FROM random_points WHERE coordinates <^ point(10, 10);
+
+Seq Scan on random_points  (cost=0.00..1887.00 rows=10000 width=20) (actual time=0.020..10.547 rows=9504 loops=1)
+   Filter: (coordinates <^ '(10,10)'::point)
+   Rows Removed by Filter: 90496
+ Planning Time: 0.148 ms
+ Execution Time: 10.969 ms
+(5 rows)
+
+EXPLAIN ANALYZE SELECT * FROM random_points WHERE coordinates >> point(55, 55);
+
+Seq Scan on random_points  (cost=0.00..1887.00 rows=10000 width=20) (actual time=0.026..12.377 rows=44537 loops=1)
+   Filter: (coordinates >> '(55,55)'::point)
+   Rows Removed by Filter: 55463
+ Planning Time: 0.082 ms
+ Execution Time: 14.228 ms
+(5 rows)
+
+- Dodanie indeksu:
+
+CREATE INDEX point_idx ON random_points USING spgist(coordinates);
+
+- Te same zapytania po dodaniu indeksu:
+
+EXPLAIN ANALYZE SELECT * FROM random_points WHERE coordinates <^ point(10, 10);
+
+Bitmap Heap Scan on random_points  (cost=305.78..1067.78 rows=10000 width=20) (actual time=2.855..4.987 rows=9504 loops=1)
+   Recheck Cond: (coordinates <^ '(10,10)'::point)
+   Heap Blocks: exact=637
+   ->  Bitmap Index Scan on point_idx  (cost=0.00..303.28 rows=10000 width=0) (actual time=2.620..2.620 rows=9504 loops=1)
+         Index Cond: (coordinates <^ '(10,10)'::point)
+ Planning Time: 0.310 ms
+ Execution Time: 5.338 ms
+
+EXPLAIN ANALYZE SELECT * FROM random_points WHERE coordinates >> point(55, 55);
+
+Bitmap Heap Scan on random_points  (cost=305.78..1067.78 rows=10000 width=20) (actual time=6.709..12.189 rows=44537 loops=1)
+   Recheck Cond: (coordinates >> '(55,55)'::point)
+   Heap Blocks: exact=637
+   ->  Bitmap Index Scan on point_idx  (cost=0.00..303.28 rows=10000 width=0) (actual time=6.627..6.627 rows=44537 loops=1)
+         Index Cond: (coordinates >> '(55,55)'::point)
+ Planning Time: 0.295 ms
+ Execution Time: 13.658 ms
+(7 rows)
+
+Obecność indeksowania znacznie pomogło w przypadku pierwszego zapytania, dla zapytania pierwszego czasy wykonań są bardzo zbliżone.
+Może to być spowodowane tym, że w wyniku zapytania pierwszego otrzymujemy jednynie około 10% wszystkich rekordów, podczas gdy
+dla drugiego jest to już blisko 50%. Gdy mniej rekordów spełnia zapytanie, indeksowanie znacznie przyspiesza proces wyszukiwania.

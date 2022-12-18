@@ -15,6 +15,10 @@ function fetchPokemonSpecies(name) {
   return fetch(`${POKEMON_API_BASE_URL}/pokemon-species/${name}`);
 }
 
+function capitalize(string) {
+  return string[0].toUpperCase() + string.slice(1);
+}
+
 function createErrorNotification(message) {
   const headerElement = document.createElement("h2");
   headerElement.textContent = "Error";
@@ -31,16 +35,16 @@ function createErrorNotification(message) {
   return containerElement;
 }
 
-function capitalize(string) {
-  return string[0].toUpperCase() + string.slice(1);
-}
-
 function createPokemonListItemElement(name) {
   const nameElement = document.createElement("span");
   nameElement.textContent = capitalize(name);
 
   const listItemElement = document.createElement("li");
-  listItemElement.classList.add("pokemon_list__item", "button", "button--select");
+  listItemElement.classList.add(
+    "pokemon_list__item",
+    "button",
+    "button--select"
+  );
   listItemElement.setAttribute("id", name);
   listItemElement.addEventListener("click", () => loadPokemonInfo(name));
   listItemElement.appendChild(nameElement);
@@ -92,19 +96,28 @@ function createPokemonInfoElement({ name, sprites, types }, species) {
   return containerElement;
 }
 
-async function loadPokemonInfo(name) {
-  const pokemonResponse = await fetchPokemon(name);
-  const speciesResponse = await fetchPokemonSpecies(name);
-  if (pokemonResponse.ok || speciesResponse.ok) {
-    console.log("error");
-    const errorNotificationElement = createErrorNotification("Failed to load Pokemon");
-    return pokemonInfoSectionElement.replaceChildren(errorNotificationElement);
-  }
+function showPokemonLoadErrorNotification(name) {
+  const errorNotificationElement = createErrorNotification(
+    `Failed to load ${capitalize(name)}`
+  );
 
-  const pokemon = await pokemonResponse.json();
-  const species = await speciesResponse.json();
-  const pokemonInfoElement = createPokemonInfoElement(pokemon, species);
-  pokemonInfoSectionElement.replaceChildren(pokemonInfoElement);
+  pokemonInfoSectionElement.replaceChildren(errorNotificationElement);
+}
+
+async function loadPokemonInfo(name) {
+  try {
+    const pokemonResponse = await fetchPokemon(name);
+    const speciesResponse = await fetchPokemonSpecies(name);
+    if (!pokemonResponse.ok || !speciesResponse.ok)
+      return showPokemonLoadErrorNotification(name);
+
+    const pokemon = await pokemonResponse.json();
+    const species = await speciesResponse.json();
+    const pokemonInfoElement = createPokemonInfoElement(pokemon, species);
+    pokemonInfoSectionElement.replaceChildren(pokemonInfoElement);
+  } catch (error) {
+    showPokemonLoadErrorNotification(name);
+  }
 }
 
 loadPokemonList();

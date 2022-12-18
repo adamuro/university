@@ -38,6 +38,8 @@ body {
 .container--error {
   color: white;
   background-color: rgb(255, 106, 79);
+  border-radius: 1rem;
+  width: 60%;
 }
 
 .pokemon_info__container {
